@@ -1,4 +1,4 @@
-# cef
+# cefjs
 cefpython3 based scriptable web browser for python.
 
 **it support for JS is better than ghost.py.**
