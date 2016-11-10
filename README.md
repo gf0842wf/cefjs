@@ -23,6 +23,8 @@ other:
 ```
 see https://github.com/cztomczak/cefpython
 ```
+`pip install cefpython3`
+
 - use cefjs
 
   copy the cefjs.py file to your project
