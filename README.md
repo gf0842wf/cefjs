@@ -29,4 +29,4 @@ see https://github.com/cztomczak/cefpython
 
 # usage
 
-see test.py
+see test.py[https://github.com/gf0842wf/cefjs/blob/master/test.py]
