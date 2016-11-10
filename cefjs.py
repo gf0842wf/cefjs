@@ -116,7 +116,7 @@ class Session(object):
             var html = document.documentElement.outerHTML;
             py_func(html);
             """
-        return self.evaluate_args(js)
+        return self.evaluate_args(js)[0]
 
 
 class CEF(object):
