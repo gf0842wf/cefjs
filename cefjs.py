@@ -127,6 +127,14 @@ class Session(object):
                 """
         return HTMLParser.HTMLParser().unescape(self.evaluate_args(js)[0].decode('UTF-8')).encode('UTF-8')
 
+    @property
+    def html(self):
+        js = """
+                var html = document.documentElement.outerHTML;
+                py_func(html);
+                """
+        return self.evaluate_args(js)[0]
+
 
 class CEF(object):
     js_bindings = None
