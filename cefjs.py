@@ -5,6 +5,7 @@ import sys
 import Queue
 import wx
 import os
+import HTMLParser
 
 application_settings = {
     "cache_path": "/tmp/cef/cache/",
@@ -116,7 +117,15 @@ class Session(object):
             var html = document.documentElement.outerHTML;
             py_func(html);
             """
-        return self.evaluate_args(js)[0]
+        return HTMLParser.HTMLParser().unescape(self.evaluate_args(js)[0].decode('UTF-8'))
+
+    @property
+    def text(self):
+        js = """
+                var html = document.documentElement.outerHTML;
+                py_func(html);
+                """
+        return HTMLParser.HTMLParser().unescape(self.evaluate_args(js)[0].decode('UTF-8')).encode('UTF-8')
 
 
 class CEF(object):
