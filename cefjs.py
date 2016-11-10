@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 from cefpython3 import cefpython
 from threading import Thread, Lock
-import sys
+import signal
 import Queue
 import wx
 import os
@@ -46,6 +46,16 @@ switch_settings = {
     # "--invalid-switch": "" -> Invalid switch name
 }
 
+pid_file = os.path.join(application_settings['cache_path'], 'cefjs.pid')
+with open(pid_file, 'w') as f:
+    f.write(str(os.getpid()))
+
+
+def kill_self():
+    with open(pid_file) as f:
+        pid = int(f.read())
+        os.kill(pid, signal.SIGKILL)
+
 
 def set_app_settings(settings={}):
     global application_settings
@@ -76,7 +86,8 @@ class Session(object):
         self.start()
 
     def start(self):
-        raise NotImplementedError
+        print '!!!!!!!class Session.start NotImplementedError!!!!!!!!'
+        kill_self()
 
     def open(self, url):
         global lock
@@ -312,7 +323,7 @@ def loop(session_cls):
     cefpython.Shutdown()
 
 
-__all__ = ['loop', 'Session', 'set_app_settings', 'set_browser_settings', 'set_switch_settings']
+__all__ = ['loop', 'Session', 'set_app_settings', 'set_browser_settings', 'set_switch_settings', 'kill_self']
 
 if __name__ == '__main__':
     s_cls = Session
