@@ -1,27 +1,22 @@
-from cefjs import CEF, loop
+# please see cefjs.__all__
+from cefjs import Session, loop
 
 
-class MyCEF(CEF):
-    def py_func(self, *args):
-        """this function is callback, can call in js code
-        """
-        content = args[0]
-        num = args[1]
-        print content, num
+class MySession(Session):
+    def start(self):
+        self.open('https://www.baidu.com/')
 
-    def on_init(self, browser, frame, status_code):
-        self.open('https://github.com/')
-
-    def on_load_end(self, browser, frame, status_code):
-        num = 1
         js = """
-            var html = document.documentElement.outerHTML;
-            var num = %s;
-            py_func(html, num);
-            """ % num
-        self.evaluate(js)
+        var btn_text = document.getElementById('su').value;
+        py_func(btn_text)
+        """
+        print '###js callback data:%s' % repr(self.evaluate_args(js))
+
+        self.evaluate("document.getElementsByTagName('a')[0].click()")
+
+        # print '###content:%s' % self.content
 
 
 if __name__ == '__main__':
-    cef_cls = MyCEF
-    loop(cef_cls)
+    session_cls = MySession
+    loop(session_cls)
