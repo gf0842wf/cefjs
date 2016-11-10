@@ -10,7 +10,7 @@ class MyCEF(CEF):
         print content, num
 
     def on_init(self, browser, frame, status_code):
-        self.open('http://120.76.121.103/fengshen/game.php?sid=f41a93a9ee56ff7d318d1079f93c65fa&cmd=113')
+        self.open('https://github.com/')
 
     def on_load_end(self, browser, frame, status_code):
         num = 1
