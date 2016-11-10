@@ -1,6 +1,8 @@
 # cef
 cefpython3 based scriptable web browser for python.
 
+**it support for JS is better than ghost.py.**
+
 # requirements
 
 - python2.7
