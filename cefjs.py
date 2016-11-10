@@ -1,13 +1,15 @@
 # -*- coding: UTF-8 -*-
 from cefpython3 import cefpython
 from threading import Thread, Lock
+import sys
 import Queue
 import wx
+import os
 
 application_settings = {
     "cache_path": "/tmp/cef/cache/",
     "debug": True,
-    "log_severity": cefpython.LOGSEVERITY_INFO,
+    "log_severity": cefpython.LOGSEVERITY_WARNING,
     "log_file": "/tmp/cef/debug.log",
     "resources_dir_path": cefpython.GetModuleDirectory() + "/Resources",
     "browser_subprocess_path": "%s/%s" % (cefpython.GetModuleDirectory(), "subprocess"),
@@ -73,8 +75,7 @@ class Session(object):
         self.start()
 
     def start(self):
-        self.open('http://120.76.121.103/fengshen/game.php?sid=f41a93a9ee56ff7d318d1079f93c65fa&cmd=1913')
-        self.evaluate("document.getElementsByTagName('a')[0].click()")
+        raise NotImplementedError
 
     def open(self, url):
         global lock
@@ -86,6 +87,7 @@ class Session(object):
         self.page_q.get()
 
     def evaluate(self, js):
+        # evaluate js and wait return
         js += '\n__py_cb();'
         global lock
         lock.acquire()
@@ -96,6 +98,7 @@ class Session(object):
         self.sentinel_q.get()
 
     def evaluate_args(self, js):
+        #  evaluate js and wait return js`s data by call py_func
         if 'py_func' not in js:
             raise Exception('not use py_func, please use evaluate')
         global lock
@@ -256,6 +259,7 @@ class CEFWXApp(wx.App):
     timer = None
     timerID = 1
     timerCount = 0
+    frame = None
 
     def __init__(self, redirect, session_cls):
         self.session_cls = session_cls
@@ -263,7 +267,7 @@ class CEFWXApp(wx.App):
 
     def OnInit(self):
         self._create_timer()
-        frame = CEFJSFrame('about:blank', self.session_cls)
+        self.frame = frame = CEFJSFrame('about:blank', self.session_cls)
         self.SetTopWindow(frame)
         frame.Show()
         return True
@@ -291,7 +295,7 @@ def loop(session_cls):
     cefpython.Shutdown()
 
 
-__all__ = ['loop', 'Session']
+__all__ = ['loop', 'Session', 'set_app_settings', 'set_browser_settings', 'set_switch_settings']
 
 if __name__ == '__main__':
     s_cls = Session
