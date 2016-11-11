@@ -33,6 +33,15 @@ see https://github.com/cztomczak/cefpython
 
 see [test.py](https://github.com/gf0842wf/cefjs/blob/master/test.py)
 
+# settings
+
+```
+http proxy, socks5 proxy, user-agent see cefjs.py -> switch_settings
+cache path, log, resources, subprocess see cefjs.py -> application_settings
+you must change your resources_dir_path, if not in osx.
+eg. in ubuntu resources_dir_path is cefpython.GetModuleDirectory()
+```
+
 
 # if you want run in no x window server
 
