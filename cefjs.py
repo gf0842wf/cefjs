@@ -48,6 +48,8 @@ switch_settings = {
 
 pid_file = os.path.join(application_settings['cache_path'], 'cefjs.pid')
 with open(pid_file, 'w') as f:
+    if not os.path.exists(application_settings['cache_path']):
+        os.mkdir(application_settings['cache_path'])
     f.write(str(os.getpid()))
 
 
@@ -87,6 +89,15 @@ class Session(object):
 
     def start(self):
         print '!!!!!!!class Session.start NotImplementedError!!!!!!!!'
+        self.close()
+
+    def hide(self):
+        self.frame.Hide()
+
+    def show(self):
+        self.frame.Show()
+
+    def close(self):
         kill_self()
 
     def open(self, url):
@@ -253,6 +264,7 @@ class CEFJSFrame(wx.Frame):
             navigateUrl=url)
 
         self.clientHandler = CEFHandler()
+        session_cls.frame = self
         self.clientHandler.cef = CEF(session_cls)
         self.clientHandler.cef.main_browser = self.browser
         self.clientHandler.cef.initialize()
@@ -260,18 +272,23 @@ class CEFJSFrame(wx.Frame):
 
         menu = wx.Menu()
 
-        act_test = menu.Append(1, 'Test')
+        act_hide = menu.Append(1, 'Hide')
+        act_show = menu.Append(2, 'Show')
         act_exit = menu.Append(10, 'Exit')
         menu_bar = wx.MenuBar()
         menu_bar.Append(menu, 'Action')
         self.SetMenuBar(menu_bar)
+        self.Bind(wx.EVT_MENU, self.hide, act_hide)
+        self.Bind(wx.EVT_MENU, self.show, act_show)
         self.Bind(wx.EVT_MENU, self.on_close, act_exit)
-        self.Bind(wx.EVT_MENU, self.on_test, act_test)
 
         self.Bind(wx.EVT_CLOSE, self.on_close)
 
-    def on_test(self, event):
-        print 'on test'
+    def hide(self, event):
+        self.Hide()
+
+    def show(self, event):
+        self.Show()
 
     def on_close(self, event):
         del self.browser
