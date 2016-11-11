@@ -49,7 +49,7 @@ switch_settings = {
 pid_file = os.path.join(application_settings['cache_path'], 'cefjs.pid')
 with open(pid_file, 'w') as f:
     if not os.path.exists(application_settings['cache_path']):
-        os.mkdir(application_settings['cache_path'])
+        os.makedirs(application_settings['cache_path'])
     f.write(str(os.getpid()))
 
 
