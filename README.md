@@ -32,3 +32,8 @@ see https://github.com/cztomczak/cefpython
 # usage
 
 see [test.py](https://github.com/gf0842wf/cefjs/blob/master/test.py)
+
+
+# if you want run in no x window server
+
+`xvfb-run --auto-servernum --server-args="-screen 0 1280x760x24"  python test.py`
