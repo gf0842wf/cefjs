@@ -38,7 +38,10 @@ browser_settings = {
 switch_settings = {
     "locale_pak": cefpython.GetModuleDirectory() + "/Resources/en.lproj/locale.pak",
 
-    # "proxy-server": "socks5://127.0.0.1:8888",
+    # "proxy-server": "socks5://127.0.0.1:7777",
+    # "proxy-server": "http://127.0.0.1:7777",
+    # "user-agent": "MyBrowser/1.0"
+
     # "no-proxy-server": "",
     # "enable-media-stream": "",
     # "remote-debugging-port": "12345",
@@ -211,7 +214,6 @@ class CEF(object):
         self.logic_thread.start()
 
     def on_load_end(self, url, status_code):
-
         global lock
         lock.acquire()
         global status
