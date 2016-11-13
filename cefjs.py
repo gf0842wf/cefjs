@@ -9,7 +9,7 @@ import HTMLParser
 
 application_settings = {
     "cache_path": "/tmp/cef/cache/",
-    "debug": True,
+    "debug": False,
     "log_severity": cefpython.LOGSEVERITY_WARNING,
     "log_file": "/tmp/cef/debug.log",
     "resources_dir_path": cefpython.GetModuleDirectory() + "/Resources",
